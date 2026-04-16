@@ -11,6 +11,9 @@
       <h1>Mergington High School</h1>
       <h2>Extracurricular Activities</h2>
       <div id="user-controls">
+        <div id="dark-mode-controls">
+          <button id="dark-mode-toggle" title="Switch to dark mode" aria-label="Switch to dark mode">🌙</button>
+        </div>
         <div id="user-status">
           <button id="login-button" class="icon-button">
             <span class="user-icon">👤</span>
@@ -188,5 +191,35 @@
     </div>
 
     <script src="app.js"></script>
+    <script>
+      (function () {
+        const toggle = document.getElementById("dark-mode-toggle");
+        const root = document.documentElement;
+
+        function applyTheme(theme) {
+          if (theme === "dark") {
+            root.setAttribute("data-theme", "dark");
+            toggle.textContent = "☀️";
+            toggle.title = "Switch to light mode";
+            toggle.setAttribute("aria-label", "Switch to light mode");
+          } else {
+            root.removeAttribute("data-theme");
+            toggle.textContent = "🌙";
+            toggle.title = "Switch to dark mode";
+            toggle.setAttribute("aria-label", "Switch to dark mode");
+          }
+        }
+
+        const saved = localStorage.getItem("theme") || "light";
+        applyTheme(saved);
+
+        toggle.addEventListener("click", function () {
+          const current = root.getAttribute("data-theme") === "dark" ? "dark" : "light";
+          const next = current === "dark" ? "light" : "dark";
+          localStorage.setItem("theme", next);
+          applyTheme(next);
+        });
+      })();
+    </script>
   </body>
 </html>
